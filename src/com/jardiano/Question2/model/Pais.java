@@ -1,49 +1,117 @@
 package com.jardiano.Question2.model;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class Pais {
-    String nome;
-    String capital;
-    double dimensao;
-    String[] fronteira = new String[10];
 
-    //construtor que inicializa o nome, capital e dimensão do pais
-    Pais(String nome, String capital, double dimensao) {
-        this.nome = nome;
+    private String name;
+    private String capital;
+    private Double dimension;
+    private ArrayList<Pais> border_countries = new ArrayList<>();
+
+    public Pais(String name, String capital, Double dimension) {
+        this.name = name;
         this.capital = capital;
-        this.dimensao = dimensao;
+        this.dimension = dimension;
     }
 
-    //métodos de acesso para nome
-    public String getNome() {
-        return nome;
+    public Double getDimension() {
+        return dimension;
     }
 
-    //métodos de acesso para capital
+    public void setDimension(Double dimension) {
+        this.dimension = dimension;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getCapital() {
         return capital;
     }
 
-    //métodos de acesso para dimensão
-    public double getDimensao() {
-        return dimensao;
+    public void setCapital(String capital) {
+        this.capital = capital;
     }
 
-    //método para verificar se dois países são iguais
-    public boolean equals(Pais p) {
-        boolean ret = false;
-        if ((this.nome.equals(p.getNome())) && (this.capital == p.getCapital())) {
-            ret = true;
+    public ArrayList<Pais> getBorder_countries() {
+        return border_countries;
+    }
+
+    public void setBorder_countries(ArrayList<Pais> border_countries) {
+        this.border_countries = border_countries;
+    }
+
+    public boolean addCountryToBorder(Pais country) {
+        if (country.equals(this)) {
+            return false;
         }
-        return ret;
+
+        if (this.border_countries.contains(country)) {
+            return false;
+        }
+
+        this.border_countries.add(country);
+        return true;
     }
 
-    //método para definir quais países fazem fronteira
-    public void setFronteira(String[] fronteira) {
-        this.fronteira = fronteira;
+    public ArrayList<Pais> showCountriesEquals(Pais country) {
+        ArrayList<Pais> equals = new ArrayList<>();
+
+        for (int i = 0; i < country.getBorder_countries().size(); i++) {
+
+            if (this.border_countries.contains(country.border_countries.get(i))) {
+                equals.add(country.border_countries.get(i));
+            }
+
+        }
+
+        return equals;
     }
 
-    //método que retorna a lista de paises da fronteira
-    public String[] getFronteira() {
-        return fronteira;
+    @Override
+    public String toString() {
+        return "Country{" + "name=" + name + ", capital=" + capital + ", dimension=" + dimension + ", border_countries=" + border_countries + '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.name);
+        hash = 89 * hash + Objects.hashCode(this.capital);
+        hash = 89 * hash + Objects.hashCode(this.dimension);
+        hash = 89 * hash + Objects.hashCode(this.border_countries);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Pais other = (Pais) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.capital, other.capital)) {
+            return false;
+        }
+        if (!Objects.equals(this.dimension, other.dimension)) {
+            return false;
+        }
+        return Objects.equals(this.border_countries, other.border_countries);
+    }
+
 }
